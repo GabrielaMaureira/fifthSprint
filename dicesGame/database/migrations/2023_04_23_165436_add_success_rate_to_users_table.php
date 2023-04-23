@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->float('success_rate')->nullable();
+            $table->decimal('success_rate', 3, 2)->nullable();
         });
     }
 

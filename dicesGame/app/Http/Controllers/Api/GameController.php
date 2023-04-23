@@ -45,17 +45,22 @@ class GameController extends Controller
             'result' => $game->is_win ? 'win' : 'lose',
             'dice_1' => $game->dice_1,
             'dice_2' => $game->dice_2,
-        ]);
+        ], 200);
     }
 
     /**
-     * Game is created
+     * Game is created & success_rate value is updated
      */
     private function createGame($data, $user)
     {
-        return $user->games()->create($data);
+        $game = $user->games()->create($data);
+        $user->success_rate = $user->getSuccessRate();
+        $user->save();
+
+        return $game; 
     }
 
+    
     /**
      * Get the user by id.
      */
