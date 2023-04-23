@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreGameRequest;
-use App\Http\Requests\UpdateGameRequest;
-use App\Models\Game;
+use App\Models\User;
+
+
 
 class GameController extends Controller
 {
@@ -14,55 +14,65 @@ class GameController extends Controller
      */
     public function index($id)
     {
-        return response()->json(['games' => Game::where('user_id', $id)->get()], 200);
-    }
-    
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json($this->getUserId($id)->games, 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Simulate a game of dice and return the result.
+     *
+     * @return array
      */
-    public function store(StoreGameRequest $request)
+    private function gameLogic()
     {
-        //
+        $dice1 = rand(1, 6);
+        $dice2 = rand(1, 6);
+
+        return [
+            'dice_1' => $dice1,
+            'dice_2' => $dice2,
+            'is_win' => $dice1 + $dice2 === 7,
+        ];
+    }
+   
+    /**
+     * A specific player throw the dice
+     */
+    public function throwTheDice($id)
+    {
+        $game = $this->createGame($this->gameLogic(), $this->getUserId($id));
+
+        return response()->json([
+            'result' => $game->is_win ? 'win' : 'lose',
+            'dice_1' => $game->dice_1,
+            'dice_2' => $game->dice_2,
+        ]);
     }
 
     /**
-     * Display the specified resource.
+     * Game is created
      */
-    public function show(Game $game)
+    private function createGame($data, $user)
     {
-        //
+        return $user->games()->create($data);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Get the user by id.
      */
-    public function edit(Game $game)
+    private function getUserId($id)
     {
-        //
+        return User::findOrFail($id);
     }
 
     /**
-     * Update the specified resource in storage.
+     * A specific player delete all the games
      */
-    public function update(UpdateGameRequest $request, Game $game)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        $user->games()->delete();
-        return response()->json(['message' => 'All delete succesfully'], 204);
+        $this->getUserId($id)->games()->delete();
+        
+        return response()->json(['message' => 'Games have been deleted'], 200);
     }
 }
+
+

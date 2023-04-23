@@ -25,6 +25,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Players list
 Route::get('/players', [UserController::class, 'index'])->name('players.index');
 
-// Games list for a specific player
-Route::get('/players/{id}/games', [GameController::class, 'index'])->name('games.index');
 
+
+Route::controller(GameController::class)->group(function(){
+
+    // Games list for a specific player
+    Route::get('players/{id}/games', 'index')->name('games.index');
+
+    // A specific player throw the dice
+    Route::post('/players/{id}/games', 'throwTheDice')->name('games.throwTheDice');
+
+    // A specific player delete all the games
+    Route::delete('/players/{id}/games', 'destroy')->name('games.destroy');
+
+});
