@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
-     * Players list
+     * Players list with success_rate
      */
     public function index()
     {
-        return response()->json(User::all(), 200);
+        return response()->json([User::select('name', 'success_rate')->get()], 200);
     }
 
     /**

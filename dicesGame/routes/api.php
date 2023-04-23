@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
-// Players list
+// Players list & success rate
 Route::get('/players', [UserController::class, 'index'])->name('players.index');
 
 
