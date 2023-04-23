@@ -46,4 +46,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Game::class);
     }
+
+    /**
+     * The percentage of success is calculated by collecting the total games of a player and the total wins.
+     */
+    public function getSuccessRate()
+    {
+        $total_games = $this->games()->count();
+        $total_wins = $this->games()->where('is_win', true)->count();
+
+        if ($total_games == 0) {
+            return null;
+        }
+        
+        return $total_wins / $total_games;
+    }
 }
