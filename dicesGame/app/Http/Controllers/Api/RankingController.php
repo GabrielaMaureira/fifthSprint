@@ -15,7 +15,7 @@ class RankingController extends Controller
     {
         $average = User::avg('success_rate');
     
-        return response()->json(['average_success_rate' => $average, 200]);
+        return response()->json(['average_success_rate' => $average], 200);
     }
 
     /**
@@ -27,9 +27,7 @@ class RankingController extends Controller
         
         return response()->json([
             'player' => $user->name,
-            'success_rate' => $user->success_rate, 
-            200
-        ]);
+            'success_rate' => $user->success_rate], 200);
     }
 
     /**
@@ -41,7 +39,6 @@ class RankingController extends Controller
 
         return response()->json([
             'player' => $user->name,
-            'success_rate' => $user->success_rate
-        ], 200);
+            'success_rate' => $user->success_rate], 200);
     }
 }
