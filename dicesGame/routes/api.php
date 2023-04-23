@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\RankingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,5 +38,12 @@ Route::controller(GameController::class)->group(function(){
 
     // A specific player delete all the games
     Route::delete('/players/{id}/games', 'destroy')->name('games.destroy');
+
+});
+
+Route::controller(RankingController::class)->group(function(){
+
+    // Average success rate of all players
+    Route::get('/players/ranking', 'index')->name('ranking.index');
 
 });
