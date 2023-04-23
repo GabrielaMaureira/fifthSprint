@@ -48,4 +48,8 @@ Route::controller(RankingController::class)->group(function(){
     
     // Highest success rate
     Route::get('/players/ranking/winner', 'winner')->name('ranking.winner');
+
+    // Lowest success rate
+    Route::get('/players/ranking/loser', 'loser')->name('ranking.loser');
+
 });

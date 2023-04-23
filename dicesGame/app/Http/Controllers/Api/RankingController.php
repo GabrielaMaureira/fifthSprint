@@ -14,11 +14,15 @@ class RankingController extends Controller
      */
     public function index()
     {
-        
+        $average = User::avg('success_rate');
+    
+        return response()->json([
+            'average_success_rate' => $average,
+        ]);
     }
 
     /**
-     * Player with best success rate
+     * Player with highest success rate
      */
     public function winner()
     {
@@ -33,10 +37,13 @@ class RankingController extends Controller
     /**
      * Player with worst success rate
      */
-    public function loser(Request $request)
+    public function loser()
     {
-        //
-    }
+        $user = User::orderBy('success_rate')->first();
 
-   
+        return response()->json([
+            'player' => $user->name,
+            'success_rate' => $user->success_rate
+        ], 200);
+    }
 }
