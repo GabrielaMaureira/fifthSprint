@@ -44,7 +44,7 @@ Route::controller(GameController::class)->group(function(){
 Route::controller(RankingController::class)->group(function(){
 
     // Average success rate of all players
-    //Route::get('/players/ranking', 'index')->name('ranking.index');
+    Route::get('/players/ranking', 'index')->name('ranking.index');
     
     // Highest success rate
     Route::get('/players/ranking/winner', 'winner')->name('ranking.winner');
