@@ -21,12 +21,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::controller(UserController::class)->group(function(){
+
+    // Players list & success rate
+    Route::get('/players', 'index')->name('players.index');
+
+    // Name modified for a specific player
+    Route::patch('/players/{id}', 'update')->name('players.update');
 
 
-// Players list & success rate
-Route::get('/players', [UserController::class, 'index'])->name('players.index');
-
-
+});
 
 Route::controller(GameController::class)->group(function(){
 

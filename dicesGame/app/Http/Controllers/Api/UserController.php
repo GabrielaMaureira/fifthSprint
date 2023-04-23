@@ -17,34 +17,18 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create new user
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        
     }
-
     /**
-     * Display the specified resource.
+     * Name modified for a specific player
      */
-    public function show(User $user)
+    public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
+        
     }
 }
+
