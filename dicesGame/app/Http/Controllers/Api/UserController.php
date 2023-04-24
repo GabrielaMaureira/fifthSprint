@@ -37,7 +37,7 @@ class UserController extends Controller
         if (Auth::attempt($data)) {
             $user = Auth::user();
             $token = $user->createToken('auth_token')->accessToken;
-            return response()->json(['message' => 'Login successfully', 'user' => $user->name, 'auth_token' => $token], 200);
+            return response()->json(['message' => 'Successfully logged in', 'user' => $user->name, 'auth_token' => $token], 200);
     }
 
         return response()->json(['message' => 'Invalid credentials'], 401);
@@ -82,5 +82,7 @@ class UserController extends Controller
         $user->save();
         return response()->json(['message' => 'Name updated successfully'], 200);
     }
+
+     
 }
 

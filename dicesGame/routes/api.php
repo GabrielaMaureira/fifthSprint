@@ -33,6 +33,7 @@ use App\Http\Controllers\Api\RankingController;
 
 
 Route::middleware('auth:api')->group(function(){
+
     // Games list for a specific player
     Route::get('players/{id}/games', [GameController::class, 'index'])->name('games.index');
 
