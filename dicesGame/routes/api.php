@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\RankingController;
     // Register
     Route::post('players', [UserController::class, 'register'])->name('user.register');
 
+    
 
     // Players list & success rate
     Route::get('/players', [UserController::class, 'index'])->name('players.index');
@@ -41,6 +42,8 @@ Route::middleware('auth:api')->group(function(){
     // A specific player delete all the games
     Route::delete('/players/{id}/games', [GameController::class, 'destroy'])->name('games.destroy');
 
+    // Name modified for a specific player
+    Route::patch('/players/{id}', [UserController::class, 'update'])->name('players.update');
 });
 
     // Average success rate of all players

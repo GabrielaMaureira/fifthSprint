@@ -40,7 +40,7 @@ class UserController extends Controller
             return response()->json(['message' => 'Login successfully', 'user' => $user->name, 'auth_token' => $token], 200);
     }
 
-        return response()->json(['message' => 'Unauthenticated'], 401);
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
     /**
@@ -61,17 +61,26 @@ class UserController extends Controller
        ]);
 
        $token = $user->createToken('auth_token')->accessToken;
-
        return response()->json(['user' => $user->name, 'email' => $user->email, 'auth_token' => $token], 201);
     }
 
-    
+    /**
+     * Get the user by id.
+     */
+    private function getUserId($id)
+    {
+        return User::findOrFail($id);
+    }
+
     /**
      * Name modified for a specific player
      */
     public function update(Request $request, $id)
     {
-        
+        $user = $this->getUserId($id);
+        $user->name = $request->input('name');
+        $user->save();
+        return response()->json(['message' => 'Name updated successfully'], 200);
     }
 }
 
