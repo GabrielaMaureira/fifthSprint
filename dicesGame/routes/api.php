@@ -17,39 +17,40 @@ use App\Http\Controllers\Api\RankingController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+    // Login
+    Route::post('login', [UserController::class, 'login'])->name('user.login');
+    
+    // Register
+    Route::post('players', [UserController::class, 'register'])->name('user.register');
+
+    
+
+    // Players list & success rate
+    Route::get('/players', [UserController::class, 'index'])->name('players.index');
+
+    // Name modified for a specific player
+    Route::patch('/players/{id}', [UserController::class, 'update'])->name('players.update');
 
 
-
-// Players list
-Route::get('/players', [UserController::class, 'index'])->name('players.index');
-
-
-
-Route::controller(GameController::class)->group(function(){
-
+Route::middleware('auth:api')->group(function(){
     // Games list for a specific player
-    Route::get('players/{id}/games', 'index')->name('games.index');
+    Route::get('players/{id}/games', [GameController::class, 'index'])->name('games.index');
 
     // A specific player throw the dice
-    Route::post('/players/{id}/games', 'throwTheDice')->name('games.throwTheDice');
+    Route::post('/players/{id}/games', [GameController::class, 'throwTheDice'])->name('games.throwTheDice');
 
     // A specific player delete all the games
-    Route::delete('/players/{id}/games', 'destroy')->name('games.destroy');
+    Route::delete('/players/{id}/games', [GameController::class, 'destroy'])->name('games.destroy');
 
+    // Name modified for a specific player
+    Route::patch('/players/{id}', [UserController::class, 'update'])->name('players.update');
 });
-
-Route::controller(RankingController::class)->group(function(){
 
     // Average success rate of all players
-    Route::get('/players/ranking', 'index')->name('ranking.index');
+    Route::get('/players/ranking', [RankingController::class, 'index'])->name('ranking.index');
     
     // Highest success rate
-    Route::get('/players/ranking/winner', 'winner')->name('ranking.winner');
+    Route::get('/players/ranking/winner', [RankingController::class, 'winner'])->name('ranking.winner');
 
     // Lowest success rate
-    Route::get('/players/ranking/loser', 'loser')->name('ranking.loser');
-
-});
+    Route::get('/players/ranking/loser', [RankingController::class, 'loser'])->name('ranking.loser');

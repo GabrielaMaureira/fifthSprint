@@ -5,46 +5,82 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends Controller
 {
     /**
-     * Players list
+     * Players list with success_rate
      */
     public function index()
     {
-        return response()->json(User::all(), 200);
+        return response()->json([User::select('name', 'success_rate')->get()], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Login for authenticated user
      */
-    public function store(Request $request)
+    public function login(Request $request)
     {
-        //
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required'
+       ]);
+
+       $data = [
+            'email' => $request->email,
+            'password' => $request->password,
+       ];
+
+        if (Auth::attempt($data)) {
+            $user = Auth::user();
+            $token = $user->createToken('auth_token')->accessToken;
+            return response()->json(['message' => 'Login successfully', 'user' => $user->name, 'auth_token' => $token], 200);
+    }
+
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
     /**
-     * Display the specified resource.
+     * Register
      */
-    public function show(User $user)
+    public function register(Request $request)
     {
-        //
+       $request->validate([
+            'name' => 'max:255|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6'
+       ]);
+
+       $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+       ]);
+
+       $token = $user->createToken('auth_token')->accessToken;
+       return response()->json(['user' => $user->name, 'email' => $user->email, 'auth_token' => $token], 201);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Get the user by id.
      */
-    public function update(Request $request, User $user)
+    private function getUserId($id)
     {
-        //
+        return User::findOrFail($id);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Name modified for a specific player
      */
-    public function destroy(User $user)
+    public function update(Request $request, $id)
     {
-        //
+        $user = $this->getUserId($id);
+        $user->name = $request->input('name');
+        $user->save();
+        return response()->json(['message' => 'Name updated successfully'], 200);
     }
 }
+
