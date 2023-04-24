@@ -17,17 +17,11 @@ use App\Http\Controllers\Api\RankingController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
-
     // Login
-    //Route::post('login', 'login')->name('user.login');
+    Route::post('login', [UserController::class, 'login'])->name('user.login');
     
     // Register
-    Route::post('/register', [UserController::class, 'register'])->name('user.register');
+    Route::post('players', [UserController::class, 'register'])->name('user.register');
 
 
     // Players list & success rate

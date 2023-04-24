@@ -24,7 +24,23 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
-        
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required'
+       ]);
+
+       $data = [
+            'email' => $request->email,
+            'password' => $request->password,
+       ];
+
+        if (Auth::attempt($data)) {
+            $user = Auth::user();
+            $token = $user->createToken('auth_token')->accessToken;
+            return response()->json(['message' => 'Login successfully', 'user' => $user->name, 'auth_token' => $token], 200);
+    }
+
+        return response()->json(['message' => 'Unauthenticated'], 401);
     }
 
     /**
@@ -46,7 +62,7 @@ class UserController extends Controller
 
        $token = $user->createToken('auth_token')->accessToken;
 
-       return response()->json(['user' => $user, 'auth_token' => $token], 201);
+       return response()->json(['user' => $user->name, 'email' => $user->email, 'auth_token' => $token], 201);
     }
 
     
