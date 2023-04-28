@@ -23,37 +23,36 @@ use App\Http\Controllers\Api\RankingController;
     // Register
     Route::post('players', [UserController::class, 'register'])->name('user.register');
 
+
+    Route::group(['middleware' => ['api']], function () {
     
+        // Players list & success rate
+        Route::get('/players', [UserController::class, 'index'])->name('players.index');
 
-    // Players list & success rate
-    Route::get('/players', [UserController::class, 'index'])->name('players.index');
+        // Name modified for a specific player
+        Route::patch('/players/{id}', [UserController::class, 'update'])->name('players.update');
 
-    // Name modified for a specific player
-    Route::patch('/players/{id}', [UserController::class, 'update'])->name('players.update');
+        // Games list for a specific player
+        Route::get('players/{id}/games', [GameController::class, 'index'])->name('games.index');
 
+        // A specific player throw the dice
+        Route::post('/players/{id}/games', [GameController::class, 'throwTheDice'])->name('games.throwTheDice');
 
-Route::middleware('auth:api')->group(function(){
+        // A specific player delete all the games
+        Route::delete('/players/{id}/games', [GameController::class, 'destroy'])->name('games.destroy');
 
-    Route::post('logout', [UserController::class, 'logout'])->name('user.logout');
+        // Average success rate of all players
+        Route::get('/players/ranking', [RankingController::class, 'index'])->name('ranking.index');
+        
+        // Highest success rate
+        Route::get('/players/ranking/winner', [RankingController::class, 'winner'])->name('ranking.winner');
 
-    // Games list for a specific player
-    Route::get('players/{id}/games', [GameController::class, 'index'])->name('games.index');
+        // Lowest success rate
+        Route::get('/players/ranking/loser', [RankingController::class, 'loser'])->name('ranking.loser');
 
-    // A specific player throw the dice
-    Route::post('/players/{id}/games', [GameController::class, 'throwTheDice'])->name('games.throwTheDice');
+        // Logout
+        Route::post('logout', [UserController::class, 'logout'])->name('user.logout');
 
-    // A specific player delete all the games
-    Route::delete('/players/{id}/games', [GameController::class, 'destroy'])->name('games.destroy');
+        
+    });    
 
-    // Name modified for a specific player
-    Route::patch('/players/{id}', [UserController::class, 'update'])->name('players.update');
-});
-
-    // Average success rate of all players
-    Route::get('/players/ranking', [RankingController::class, 'index'])->name('ranking.index');
-    
-    // Highest success rate
-    Route::get('/players/ranking/winner', [RankingController::class, 'winner'])->name('ranking.winner');
-
-    // Lowest success rate
-    Route::get('/players/ranking/loser', [RankingController::class, 'loser'])->name('ranking.loser');

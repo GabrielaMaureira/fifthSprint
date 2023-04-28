@@ -19,8 +19,6 @@ class GameController extends Controller
 
     /**
      * Simulate a game of dice and return the result.
-     *
-     * @return array
      */
     private function gameLogic()
     {

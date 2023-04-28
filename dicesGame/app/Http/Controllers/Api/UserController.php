@@ -58,7 +58,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-       ]);
+       ])->assignRole('player');
 
        $token = $user->createToken('auth_token')->accessToken;
        return response()->json(['user' => $user->name, 'email' => $user->email, 'auth_token' => $token], 201);
