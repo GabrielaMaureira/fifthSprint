@@ -8,6 +8,8 @@ use App\Models\User;
 
 class RankingController extends Controller
 {
+    
+
      /**
      * Average success rate of all players
      */
