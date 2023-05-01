@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -24,20 +26,21 @@ class DatabaseSeeder extends Seeder
             'name' => 'Administrator',
             'email' => 'admin@example.com',
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => bcrypt(654321), // password
             'remember_token' => Str::random(10),
             
-         ])->assignRole(['admin']);
+         ])->assignRole('admin');
 
          
         User::factory(2)
             ->has(\App\Models\Game::factory()->count(3))
             ->create()
             ->each(function ($user) {
-                $user->roles()->attach(Role::where('name', 'player')->first());
+                $user->assignRole('player');
             });
             
     }
+    
 }
 
 

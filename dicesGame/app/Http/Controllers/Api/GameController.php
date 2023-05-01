@@ -9,6 +9,8 @@ use App\Models\User;
 
 class GameController extends Controller
 {
+    
+
     /**
      * Games list for a specific player
      */

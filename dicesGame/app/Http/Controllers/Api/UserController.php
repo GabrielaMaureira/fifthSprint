@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    
     /**
      * Players list with success_rate
      */
@@ -49,7 +50,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
        $request->validate([
-            'name' => 'max:255|unique:users',
+            'name' => 'required|max:255|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6'
        ]);
@@ -90,8 +91,9 @@ class UserController extends Controller
     {
         $token = Auth::user()->token();
         $token->revoke();
-        return response()->json([ 'message' => 'Successfully logged out'], 404);
+        return response()->json([ 'message' => 'Successfully logged out'], 200);
     }
-     
+    
+   
 }
 

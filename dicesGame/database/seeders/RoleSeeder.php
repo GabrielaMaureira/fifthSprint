@@ -14,20 +14,27 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+
         $admin = Role::create(['name' => 'admin']);
         $player = Role::create(['name' => 'player']);
 
-        Permission::create(['name' => 'user.login'])->assignRole($player);
-        Permission::create(['name' => 'user.register'])->assignRole($player);
-        Permission::create(['name' => 'players.index'])->assignRole($player);
-        Permission::create(['name' => 'players.update'])->assignRole($player);
+        // Permissions to authenticate
+        Permission::create(['name' => 'login'])->syncRoles($admin, $player);
+        Permission::create(['name' => 'logout'])->syncRoles($admin, $player);
+        Permission::create(['name' => 'register'])->syncRoles($admin, $player);
+
+        // Permissions to UserController
+        Permission::create(['name' => 'users.index'])->assignRole($admin);
+        Permission::create(['name' => 'users.update'])->assignRole($player);
+
+        // Permissions to GameController
         Permission::create(['name' => 'games.index'])->assignRole($player);
         Permission::create(['name' => 'games.throwTheDice'])->assignRole($player);
         Permission::create(['name' => 'games.destroy'])->assignRole($player);
+
+        // Permissions to RankingController
         Permission::create(['name' => 'ranking.index'])->assignRole($admin);
         Permission::create(['name' => 'ranking.winner'])->assignRole($admin);
         Permission::create(['name' => 'ranking.loser'])->assignRole($admin);
-        Permission::create(['name' => 'user.logout'])->assignRole($player);
-
     }
 }

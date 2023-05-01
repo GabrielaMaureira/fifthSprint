@@ -23,8 +23,8 @@ use App\Http\Controllers\Api\RankingController;
     // Register
     Route::post('players', [UserController::class, 'register'])->name('user.register');
 
-
-    Route::group(['middleware' => ['api']], function () {
+    
+    Route::middleware('auth:api')->group(function () {
     
         // Players list & success rate
         Route::get('/players', [UserController::class, 'index'])->name('players.index');
@@ -51,8 +51,9 @@ use App\Http\Controllers\Api\RankingController;
         Route::get('/players/ranking/loser', [RankingController::class, 'loser'])->name('ranking.loser');
 
         // Logout
-        Route::post('logout', [UserController::class, 'logout'])->name('user.logout');
+        Route::post('logout', [UserController::class, 'logout'])->name('players.logout');
 
         
-    });    
+    });  
 
+    
