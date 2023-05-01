@@ -27,19 +27,19 @@ use App\Http\Controllers\Api\RankingController;
     Route::middleware('auth:api')->group(function () {
     
         // Players list & success rate
-        Route::get('/players', [UserController::class, 'index'])->name('players.index');
+        Route::get('/players', [UserController::class, 'index'])->name('players.index')->middleware('role:player');
 
         // Name modified for a specific player
-        Route::patch('/players/{id}', [UserController::class, 'update'])->name('players.update');
+        Route::patch('/players/{id}', [UserController::class, 'update'])->name('players.update')->middleware('role:player');
 
         // Games list for a specific player
-        Route::get('players/{id}/games', [GameController::class, 'index'])->name('games.index');
+        Route::get('players/{id}/games', [GameController::class, 'index'])->name('games.index')->middleware('role:player');
 
         // A specific player throw the dice
-        Route::post('/players/{id}/games', [GameController::class, 'throwTheDice'])->name('games.throwTheDice');
+        Route::post('/players/{id}/games', [GameController::class, 'throwTheDice'])->name('games.throwTheDice')->middleware('role:player');
 
         // A specific player delete all the games
-        Route::delete('/players/{id}/games', [GameController::class, 'destroy'])->name('games.destroy');
+        Route::delete('/players/{id}/games', [GameController::class, 'destroy'])->name('games.destroy')->middleware('role:player');
         
         // Average success rate of all players
         Route::get('/players/ranking', [RankingController::class, 'index'])->name('ranking.index')->middleware('role:admin');
@@ -51,7 +51,7 @@ use App\Http\Controllers\Api\RankingController;
         Route::get('/players/ranking/loser', [RankingController::class, 'loser'])->name('ranking.loser')->middleware('role:admin');
 
         // Logout
-        Route::post('logout', [UserController::class, 'logout'])->name('players.logout');
+        Route::post('logout', [UserController::class, 'logout'])->name('players.logout')->middleware('role:admin,player');
     });
 
     
