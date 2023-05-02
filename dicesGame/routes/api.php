@@ -27,7 +27,7 @@ use App\Http\Controllers\Api\RankingController;
     Route::middleware('auth:api')->group(function () {
     
         // Players list & success rate
-        Route::get('/players', [UserController::class, 'index'])->name('players.index')->middleware('role:player');
+        Route::get('/players', [UserController::class, 'index'])->name('players.index')->middleware('role:admin');
 
         // Name modified for a specific player
         Route::patch('/players/{id}', [UserController::class, 'update'])->name('players.update')->middleware('role:player');
