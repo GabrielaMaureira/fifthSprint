@@ -64,7 +64,7 @@ class UserControllerTest extends TestCase
         ]);
     }
 
-    public function test_players_list_with_success_rate()
+    public function test_admin_can_see_player_list_with_success_rate()
     {
     
         $admin = User::factory()->create()->assignRole('admin');
