@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 
@@ -66,7 +67,17 @@ class GameController extends Controller
      */
     private function getUserId($id)
     {
-        return User::findOrFail($id);
+        $user = User::find($id);
+    
+        if (!$user) {
+            abort(404, 'User not found');
+        }
+    
+        if (Auth::user()->id != $user->id) {
+            abort(401, 'Unauthorized');
+        }
+    
+        return $user;
     }
 
     /**
@@ -78,6 +89,8 @@ class GameController extends Controller
         
         return response()->json(['message' => 'Games have been deleted'], 200);
     }
+
+    
 }
 
 
