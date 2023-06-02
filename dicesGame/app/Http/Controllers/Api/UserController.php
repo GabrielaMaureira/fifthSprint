@@ -50,13 +50,13 @@ class UserController extends Controller
     public function register(Request $request)
     {
        $request->validate([
-            'name' => 'required|max:255|unique:users',
+            'name' => 'nullable|max:255|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6'
        ]);
 
        $user = User::create([
-            'name' => $request->name,
+            'name' => $request->name ?: 'Anonymous',
             'email' => $request->email,
             'password' => Hash::make($request->password),
        ])->assignRole('player');
