@@ -42,7 +42,7 @@ use App\Http\Controllers\Api\RankingController;
         Route::delete('/players/{id}/games', [GameController::class, 'destroy'])->name('games.destroy')->middleware('role:player');
         
         // Average success rate of all players
-        Route::get('/players/ranking', [RankingController::class, 'index'])->name('ranking.index')->middleware('role:admin');
+        Route::get('/players/ranking', [RankingController::class, 'index'])->name('ranking.index')->middleware('role:admin,player');
             
         // Highest success rate
         Route::get('/players/ranking/winner', [RankingController::class, 'winner'])->name('ranking.winner')->middleware('role:admin');
