@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 
 class UserController extends Controller
@@ -52,7 +53,7 @@ class UserController extends Controller
        $request->validate([
             'name' => 'nullable|max:255|unique:users',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed'
+            'password' => ['required', 'confirmed', Password::min(8)->mixedCase()],
        ]);
 
        $user = User::create([
