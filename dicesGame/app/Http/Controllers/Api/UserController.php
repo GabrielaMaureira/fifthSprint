@@ -80,10 +80,24 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = $this->getUserId($id);
-        $user->name = $request->input('name');
-        $user->save();
+        $name = $request->input('name');
+
+        if (empty($name)) {
+            return response()->json(['error' => 'The name field is required.'], 422);
+        }
+        
+        if ($name !== $user->name) {
+            $request->validate([
+                'name' => 'required|max:255|unique:users',
+            ]);
+
+            $user->name = $name;
+            $user->save();
+        }        
+
         return response()->json(['message' => 'Name updated successfully'], 200);
     }
+
 
      /**
      * Logout.
