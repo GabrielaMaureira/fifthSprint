@@ -85,8 +85,8 @@ class UserController extends Controller
         if (empty($name)) {
             return response()->json(['error' => 'The name field is required.'], 422);
         }
-        
-        if ($name !== $user->name) {
+
+        else if ($name !== $user->name) {
             $request->validate([
                 'name' => 'required|max:255|unique:users',
             ]);
