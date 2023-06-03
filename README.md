@@ -38,7 +38,11 @@ composer require laravel/passport
 ```
 php artisan migrate --seed
 ```
-9. Run the Laravel server in another terminal: 
+9. Create the encryption keys needed to generate secure access tokens
+```
+php artisan passport:install
+```
+10. Run the Laravel server in another terminal: 
 ```
 php artisan serve
 ```
