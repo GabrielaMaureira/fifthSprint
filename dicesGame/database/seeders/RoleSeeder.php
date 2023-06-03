@@ -33,7 +33,7 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'games.destroy'])->assignRole($player);
 
         
-        Permission::create(['name' => 'ranking.index'])->assignRole($admin);
+        Permission::create(['name' => 'ranking.index'])->syncRoles($admin, $player);
         Permission::create(['name' => 'ranking.winner'])->assignRole($admin);
         Permission::create(['name' => 'ranking.loser'])->assignRole($admin);
     }

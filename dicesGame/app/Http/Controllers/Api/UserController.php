@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 
 class UserController extends Controller
@@ -50,13 +51,13 @@ class UserController extends Controller
     public function register(Request $request)
     {
        $request->validate([
-            'name' => 'required|max:255|unique:users',
+            'name' => 'nullable|max:255|unique:users',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
+            'password' => ['required', 'confirmed', Password::min(8)->mixedCase()],
        ]);
 
        $user = User::create([
-            'name' => $request->name,
+            'name' => $request->name ?: 'Anonymous',
             'email' => $request->email,
             'password' => Hash::make($request->password),
        ])->assignRole('player');
@@ -79,10 +80,24 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = $this->getUserId($id);
-        $user->name = $request->input('name');
-        $user->save();
+        $name = $request->input('name');
+
+        if (empty($name)) {
+            return response()->json(['error' => 'The name field is required.'], 422);
+        }
+
+        else if ($name !== $user->name) {
+            $request->validate([
+                'name' => 'required|max:255|unique:users',
+            ]);
+
+            $user->name = $name;
+            $user->save();
+        }        
+
         return response()->json(['message' => 'Name updated successfully'], 200);
     }
+
 
      /**
      * Logout.

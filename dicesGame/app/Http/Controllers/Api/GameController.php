@@ -17,7 +17,7 @@ class GameController extends Controller
      */
     public function index($id)
     {
-        return response()->json($this->getUserId($id)->games, 200);
+        return response()->json(['player' => $this->getUserId($id)->name, 'games' => $this->getUserId($id)->games], 200);
     }
 
     /**
@@ -71,9 +71,7 @@ class GameController extends Controller
     
         if (!$user) {
             abort(404, 'User not found');
-        }
-    
-        if (Auth::user()->id != $user->id) {
+        }else if (Auth::user()->id != $user->id) {
             abort(401, 'Unauthorized');
         }
     
