@@ -11,13 +11,13 @@ class RankingController extends Controller
     
 
      /**
-     * Average success rate of all players
+     * Player's list with better puntuation first
      */
     public function index()
     {
-        $average = User::avg('success_rate');
+        $players = User::orderBy('success_rate', 'desc')->select('name', 'success_rate')->get();
     
-        return response()->json(['average_success_rate' => $average], 200);
+        return response()->json(['players_list' => $players], 200);
     }
 
     /**
