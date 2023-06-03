@@ -37,7 +37,7 @@ class RankingController extends Controller
      */
     public function loser()
     {
-        $user = User::orderBy('success_rate')->first();
+        $user = User::where('name', '!=', 'Administrator')->orderBy('success_rate')->first();
 
         return response()->json([
             'player' => $user->name,
