@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\RankingController;
+use Spatie\Permission\Middlewares\RoleMiddleware;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +44,7 @@ use App\Http\Controllers\Api\RankingController;
         Route::delete('/players/{id}/games', [GameController::class, 'destroy'])->name('games.destroy')->middleware('role:player');
         
         // Average success rate of all players
-        Route::get('/players/ranking', [RankingController::class, 'index'])->name('ranking.index')->middleware('role:admin,player');
+        Route::get('/players/ranking', [RankingController::class, 'index'])->name('ranking.index')->middleware('role:admin|player');
             
         // Highest success rate
         Route::get('/players/ranking/winner', [RankingController::class, 'winner'])->name('ranking.winner')->middleware('role:admin');
@@ -51,7 +53,7 @@ use App\Http\Controllers\Api\RankingController;
         Route::get('/players/ranking/loser', [RankingController::class, 'loser'])->name('ranking.loser')->middleware('role:admin');
 
         // Logout
-        Route::post('logout', [UserController::class, 'logout'])->name('players.logout')->middleware('role:admin,player');
+        Route::post('logout', [UserController::class, 'logout'])->name('players.logout')->middleware('role:admin|player');
     });
 
     
