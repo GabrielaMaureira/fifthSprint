@@ -55,5 +55,3 @@ use Spatie\Permission\Middlewares\RoleMiddleware;
         // Logout
         Route::post('logout', [UserController::class, 'logout'])->name('players.logout')->middleware('role:admin|player');
     });
-
-    
