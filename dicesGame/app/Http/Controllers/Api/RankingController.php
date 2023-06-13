@@ -5,11 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
-
 class RankingController extends Controller
 {
-    
-
      /**
      * Player's list with better puntuation first
      */
