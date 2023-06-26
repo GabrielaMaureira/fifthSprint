@@ -63,7 +63,14 @@ use Spatie\Permission\Traits\HasRoles;
  *         format="date-time",
  *         description="Last update timestamp",
  *         example="2023-06-19T13:30:00+00:00"
- *     )
+ *     ),
+ *     @OA\Property(
+ *         property="success_rate",
+ *         type="number",
+ *         format="decimal",
+ *         description="Success rate of the player",
+ *         example="0.75"
+ * )
  * )
  */
 class User extends Authenticatable

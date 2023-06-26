@@ -18,16 +18,18 @@ use Illuminate\Routing\Controller as BaseController;
  * )
  * @OA\Tags(
  *     @OA\Tag(
- *          name="User",
- *          description="Operations that a user can do."
+ *          name="Authentication",
+ *          description="Operations that a user can do wether is administrator or a player"
  *      ),
+ *      
  *      @OA\Tag(
- *          name="Games",
- *          description="Operations that the user with a player role only can do."
+ *          name="Players",
+ *          description="Operations that a player can do."
  *      ),
+ * 
  *      @OA\Tag(
- *          name="Ranking",
- *          description="Operations that admin user can do. And also a player, but only one."
+ *          name="Administrator",
+ *          description="Operations that an administrator can do."
  *      ),
  *      
  * )
