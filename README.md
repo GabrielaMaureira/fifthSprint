@@ -1,7 +1,9 @@
 # fifthSprint
-REST API Laravel
+REST API Laravel.
+Swagger documentation at /api/documentation.
 
 # Dice Game
+If both add up to 7, you win, otherwise, you lose.
 
 ## Installation
 
