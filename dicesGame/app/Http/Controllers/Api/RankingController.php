@@ -13,6 +13,7 @@ class RankingController extends Controller
  *   tags={"Players, Administrator"},
  *   summary="Player's list with better puntuation first",
  *   description="This endpoint is used to retrieve the list of players, ordered by better puntuation first.",
+ * security={{"bearer": {}}},
  *   @OA\Response(
  *     response=200,
  *     description="Successful operation",
@@ -52,6 +53,7 @@ class RankingController extends Controller
  *     tags={"Administrator"},
  *     summary="Get player with highest success rate",
  *     description="This endpoint retrieves the player with the highest success rate.",
+ * security={{"bearer": {}}},
  *     @OA\Response(
  *         response=200,
  *         description="Successful operation",
@@ -85,6 +87,7 @@ class RankingController extends Controller
  *     tags={"Administrator"},
  *     summary="Get player with worst success rate",
  *     description="This endpoint retrieves the player with the worst success rate.",
+ * security={{"bearer": {}}},
  *     @OA\Response(
  *         response=200,
  *         description="Successful operation",

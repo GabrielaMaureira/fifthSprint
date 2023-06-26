@@ -19,6 +19,7 @@ class UserController extends Controller
  *   tags={"Administrator"},
  *   summary="Get players list with success rate",
  *   description="This endpoint retrieves the list of players along with their success rate.",
+ * security={{"bearer": {}}},
  *   @OA\Response(
  *     response=200,
  *     description="Successful operation",
@@ -251,6 +252,7 @@ class UserController extends Controller
  *       )
  *     )
  *   ),
+ * security={{"bearer": {}}},
  *   @OA\Response(
  *     response=200,
  *     description="Successful operation",
@@ -306,6 +308,7 @@ class UserController extends Controller
  *   tags={"Authentication"},
  *   summary="Logout",
  *   description="This endpoint is used to log out the authenticated user.",
+ * security={{"bearer": {}}},
  *   @OA\Response(
  *     response=200,
  *     description="Successful operation",

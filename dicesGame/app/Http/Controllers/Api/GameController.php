@@ -28,6 +28,7 @@ class GameController extends Controller
  *       example=1
  *     )
  *   ),
+ * security={{"bearer": {}}},
  *   @OA\Response(
  *     response=200,
  *     description="Successful operation",
@@ -99,6 +100,7 @@ class GameController extends Controller
  *       example=1
  *     )
  *   ),
+ * security={{"bearer": {}}},
  *   @OA\Response(
  *     response=200,
  *     description="Successful operation",
@@ -194,6 +196,7 @@ class GameController extends Controller
  *       example=1
  *     )
  *   ),
+ * security={{"bearer": {}}},
  *   @OA\Response(
  *     response=200,
  *     description="Successful operation",

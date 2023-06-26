@@ -1,0 +1,776 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Swagger Dice Game - OpenAPI 3.0",
+        "description": "API Rest about a game that consists of 2 dice. If the result is 7, you win the game; otherwise, you lose it.",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "gmaureirapalma@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000"
+        }
+    ],
+    "paths": {
+        "/players/{id}/games": {
+            "get": {
+                "tags": [
+                    "Players"
+                ],
+                "summary": "Games list for a specific player",
+                "description": "This endpoint is used to retrieve the list of games for a specific player.",
+                "operationId": "72a7f2a04946ba396e94ac7858584fb4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Player ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "player": {
+                                            "description": "Player name",
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "games": {
+                                            "description": "List of games",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Game"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Player not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Error message",
+                                            "type": "string",
+                                            "example": "Player not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Players"
+                ],
+                "summary": "A specific player throw the dice",
+                "description": "This endpoint is used to simulate a player throwing the dice.",
+                "operationId": "5d8d8c47d882e99a76ea76d37179f69e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Player ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "description": "Result of the dice throw (win/lose)",
+                                            "type": "string",
+                                            "example": "win"
+                                        },
+                                        "dice_1": {
+                                            "description": "Value of the first dice",
+                                            "type": "integer",
+                                            "example": 4
+                                        },
+                                        "dice_2": {
+                                            "description": "Value of the second dice",
+                                            "type": "integer",
+                                            "example": 3
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Player not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Error message",
+                                            "type": "string",
+                                            "example": "Player not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Players"
+                ],
+                "summary": "A specific player delete all the games",
+                "description": "This endpoint is used to delete all the games of a specific player.",
+                "operationId": "6f71db3701c13acb3c553c6adaf658c4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Player ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string",
+                                            "example": "Games have been deleted"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Player not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Error message",
+                                            "type": "string",
+                                            "example": "Player not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/players/ranking": {
+            "get": {
+                "tags": [
+                    "Players, Administrator"
+                ],
+                "summary": "Player's list with better puntuation first",
+                "description": "This endpoint is used to retrieve the list of players, ordered by better puntuation first.",
+                "operationId": "abadf4bf0b9392da1e399b6123dc5128",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "players_list": {
+                                            "description": "List of players",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "name": {
+                                                        "description": "Player's name",
+                                                        "type": "string"
+                                                    },
+                                                    "success_rate": {
+                                                        "description": "Player's success rate",
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/players/ranking/winner": {
+            "get": {
+                "tags": [
+                    "Administrator"
+                ],
+                "summary": "Get player with highest success rate",
+                "description": "This endpoint retrieves the player with the highest success rate.",
+                "operationId": "226979a9b0210769e0bece16814d77ec",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "player": {
+                                            "description": "Name of the player",
+                                            "type": "string"
+                                        },
+                                        "success_rate": {
+                                            "description": "Success rate of the player",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/players/ranking/loser": {
+            "get": {
+                "tags": [
+                    "Administrator"
+                ],
+                "summary": "Get player with worst success rate",
+                "description": "This endpoint retrieves the player with the worst success rate.",
+                "operationId": "ecdeced4008d85ff441a7c6bcdd10432",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "player": {
+                                            "description": "Name of the player",
+                                            "type": "string"
+                                        },
+                                        "success_rate": {
+                                            "description": "Success rate of the player",
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/players": {
+            "get": {
+                "tags": [
+                    "Administrator"
+                ],
+                "summary": "Get players list with success rate",
+                "description": "This endpoint retrieves the list of players along with their success rate.",
+                "operationId": "623b982032baec95dc104fa7afce3892",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "name": {
+                                                        "description": "Player name",
+                                                        "type": "string",
+                                                        "example": "John Doe"
+                                                    },
+                                                    "success_rate": {
+                                                        "description": "Player success rate",
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": "0.75"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Players registration",
+                "description": "This endpoint is used to register a new player in the game.",
+                "operationId": "99d721359c568b13e09b8ce27d375cea",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of the player",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "description": "Email of the player",
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Password of the player",
+                                        "type": "string",
+                                        "example": "********"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirmation of the password",
+                                        "type": "string",
+                                        "example": "********"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Player successfully registered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "description": "Name of the registered user",
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "description": "Email of the registered user",
+                                            "type": "string",
+                                            "example": "johndoe@example.com"
+                                        },
+                                        "auth_token": {
+                                            "description": "Access token for authentication",
+                                            "type": "string",
+                                            "example": "eyJ0en0..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login",
+                "description": "This endpoint is used to authenticate the admin or player and generate an access token.",
+                "operationId": "802efa828bed5cff912616a7ff48e617",
+                "requestBody": {
+                    "description": "Credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "User email",
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
+                                    },
+                                    "password": {
+                                        "description": "User password",
+                                        "type": "string",
+                                        "example": "********"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string",
+                                            "example": "Successfully logged in"
+                                        },
+                                        "user": {
+                                            "description": "User name",
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "auth_token": {
+                                            "description": "Access token",
+                                            "type": "string",
+                                            "example": "eyJhbGciOi...5O7tmS7Xw"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Error message",
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/players/{id}": {
+            "put": {
+                "tags": [
+                    "Players"
+                ],
+                "summary": "Update player name",
+                "description": "This endpoint is used to update the name of a specific player.",
+                "operationId": "7fb3247c962c77cdf2a1cdcb5329b61e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Player ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "New name for the player",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string",
+                                            "example": "Name updated successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Error message",
+                                            "type": "string",
+                                            "example": "The name field is required."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Logout",
+                "description": "This endpoint is used to log out the authenticated user.",
+                "operationId": "716ee9fdd4df72c5cb7cd983a3a5c2ef",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string",
+                                            "example": "Successfully logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Game": {
+                "title": "Game",
+                "description": "Game model",
+                "properties": {
+                    "id": {
+                        "description": "ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "dice_1": {
+                        "description": "Value of dice 1",
+                        "type": "integer",
+                        "example": 4
+                    },
+                    "dice_2": {
+                        "description": "Value of dice 2",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "is_win": {
+                        "description": "Indicates if the game is a win or not",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-06-19T12:00:00+00:00"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-06-19T13:30:00+00:00"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "description": "ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Name",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Email",
+                        "type": "string",
+                        "example": "johndoe@example.com"
+                    },
+                    "password": {
+                        "description": "Password",
+                        "type": "string",
+                        "example": "********"
+                    },
+                    "email_verified_at": {
+                        "description": "Email verification timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-06-19T12:00:00+00:00"
+                    },
+                    "remember_token": {
+                        "description": "Remember token",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-06-19T12:00:00+00:00"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-06-19T13:30:00+00:00"
+                    },
+                    "success_rate": {
+                        "description": "Success rate of the player",
+                        "type": "number",
+                        "format": "decimal",
+                        "example": "0.75"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearer": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer token here)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Operations that a user can do wether is administrator or a player"
+        },
+        {
+            "name": "Players",
+            "description": "Operations that a player can do."
+        },
+        {
+            "name": "Administrator",
+            "description": "Operations that an administrator can do."
+        }
+    ]
+}
