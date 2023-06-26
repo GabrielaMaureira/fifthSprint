@@ -237,7 +237,6 @@ class UserController extends Controller
  *     required=true,
  *     @OA\Schema(
  *       type="integer",
- *       format="int64",
  *       example=1
  *     )
  *   ),
