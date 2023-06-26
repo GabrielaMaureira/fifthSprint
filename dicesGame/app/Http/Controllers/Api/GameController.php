@@ -12,9 +12,58 @@ class GameController extends Controller
 {
     
 
-    /**
-     * Games list for a specific player
-     */
+/**
+ * @OA\Get(
+ *   path="/players/{id}/games",
+ *   tags={"Players"},
+ *   summary="Games list for a specific player",
+ *   description="This endpoint is used to retrieve the list of games for a specific player.",
+ *   @OA\Parameter(
+ *     name="id",
+ *     in="path",
+ *     description="Player ID",
+ *     required=true,
+ *     @OA\Schema(
+ *       type="integer",
+ *       example=1
+ *     )
+ *   ),
+ * security={{"bearer": {}}},
+ *   @OA\Response(
+ *     response=200,
+ *     description="Successful operation",
+ *     @OA\JsonContent(
+ *       @OA\Property(
+ *         property="player",
+ *         type="string",
+ *         description="Player name",
+ *         example="John Doe"
+ *       ),
+ *       @OA\Property(
+ *         property="games",
+ *         type="array",
+ *         description="List of games",
+ *         @OA\Items(
+ *           ref="#/components/schemas/Game"
+ *         )
+ *       )
+ *     )
+ *   ),
+ *   @OA\Response(
+ *     response=404,
+ *     description="Player not found",
+ *     @OA\JsonContent(
+ *       @OA\Property(
+ *         property="error",
+ *         type="string",
+ *         description="Error message",
+ *         example="Player not found"
+ *       )
+ *     )
+ *   )
+ * )
+ */
+
     public function index($id)
     {
         return response()->json(['player' => $this->getUserId($id)->name, 'games' => $this->getUserId($id)->games], 200);
@@ -35,9 +84,62 @@ class GameController extends Controller
         ];
     }
    
-    /**
-     * A specific player throw the dice
-     */
+/**
+ * @OA\Post(
+ *   path="/players/{id}/games",
+ *   tags={"Players"},
+ *   summary="A specific player throw the dice",
+ *   description="This endpoint is used to simulate a player throwing the dice.",
+ *   @OA\Parameter(
+ *     name="id",
+ *     in="path",
+ *     description="Player ID",
+ *     required=true,
+ *     @OA\Schema(
+ *       type="integer",
+ *       example=1
+ *     )
+ *   ),
+ * security={{"bearer": {}}},
+ *   @OA\Response(
+ *     response=200,
+ *     description="Successful operation",
+ *     @OA\JsonContent(
+ *       @OA\Property(
+ *         property="result",
+ *         type="string",
+ *         description="Result of the dice throw (win/lose)",
+ *         example="win"
+ *       ),
+ *       @OA\Property(
+ *         property="dice_1",
+ *         type="integer",
+ *         description="Value of the first dice",
+ *         example=4
+ *       ),
+ *       @OA\Property(
+ *         property="dice_2",
+ *         type="integer",
+ *         description="Value of the second dice",
+ *         example=3
+ *       )
+ *     )
+ *   ),
+ *   @OA\Response(
+ *     response=404,
+ *     description="Player not found",
+ *     @OA\JsonContent(
+ *       @OA\Property(
+ *         property="error",
+ *         type="string",
+ *         description="Error message",
+ *         example="Player not found"
+ *       )
+ *     )
+ *   )
+ * )
+ */
+
     public function throwTheDice($id)
     {
         $game = $this->createGame($this->gameLogic(), $this->getUserId($id));
@@ -78,9 +180,50 @@ class GameController extends Controller
         return $user;
     }
 
-    /**
-     * A specific player delete all the games
-     */
+/**
+ * @OA\Delete(
+ *   path="/players/{id}/games",
+ *   tags={"Players"},
+ *   summary="A specific player delete all the games",
+ *   description="This endpoint is used to delete all the games of a specific player.",
+ *   @OA\Parameter(
+ *     name="id",
+ *     in="path",
+ *     description="Player ID",
+ *     required=true,
+ *     @OA\Schema(
+ *       type="integer",
+ *       example=1
+ *     )
+ *   ),
+ * security={{"bearer": {}}},
+ *   @OA\Response(
+ *     response=200,
+ *     description="Successful operation",
+ *     @OA\JsonContent(
+ *       @OA\Property(
+ *         property="message",
+ *         type="string",
+ *         description="Success message",
+ *         example="Games have been deleted"
+ *       )
+ *     )
+ *   ),
+ *   @OA\Response(
+ *     response=404,
+ *     description="Player not found",
+ *     @OA\JsonContent(
+ *       @OA\Property(
+ *         property="error",
+ *         type="string",
+ *         description="Error message",
+ *         example="Player not found"
+ *       )
+ *     )
+ *   )
+ * )
+ */
+
     public function destroy($id)
     {
         $this->getUserId($id)->games()->delete();
