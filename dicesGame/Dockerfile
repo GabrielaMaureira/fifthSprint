@@ -14,21 +14,21 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy project files
+# Set working directory
 WORKDIR /var/www
+
+# Copy the rest of the project files
 COPY . .
 
-# Copy the entrypoint script from docker/entrypoint.sh
+# Copy the entrypoint script from docker/entrypoint.sh & giving permissions
 COPY docker/entrypoint.sh /entrypoint.sh
-
-# Grant execution permissions to the script
 RUN chmod +x /entrypoint.sh
 
 # Installing Laravel dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 
-# Giving permissions to storage & bootstrap/cache
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Giving permissions to storage
+RUN chown -R www-data:www-data /var/www
 
 # Expose 9000 to PHP-FPM
 EXPOSE 9000
